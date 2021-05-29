@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LojaQuadrinhos.Services
+namespace LojaQuadrinhos.BLL
 {
     public class Class1
     {
