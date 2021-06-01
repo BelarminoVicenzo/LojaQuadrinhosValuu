@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using LojaQuadrinhos.Models;
 
 namespace LojaQuadrinhos.DataAccess
 {
@@ -17,9 +18,23 @@ namespace LojaQuadrinhos.DataAccess
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<ApplicationUser>()
+                .HasIndex(u => u.EmployeeId)
+                .IsUnique();
+
+
         }
 
+
+        public DbSet<QuadrinhoGenre> QuadrinhoGenre { get; set; }
+        public DbSet<QuadrinhoState> QuadrinhoState { get; set; }
+        public DbSet<Client> Client { get; set; }
+        public DbSet<Employee> Employee { get; set; }
+        public DbSet<Quadrinho> Quadrinho { get; set; }
+        public DbSet<Purchase> Purchase { get; set; }
 
 
     }

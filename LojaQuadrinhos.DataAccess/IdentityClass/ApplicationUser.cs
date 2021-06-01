@@ -10,7 +10,7 @@ namespace LojaQuadrinhos.DataAccess
     public class ApplicationUser : IdentityUser
     {
 
-
+     
         public int EmployeeId { get; set; }
 
         [ForeignKey("EmployeeId")]
