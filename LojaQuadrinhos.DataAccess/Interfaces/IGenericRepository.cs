@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace LojaQuadrinhos.DataAccess.Interfaces
 {
-    public interface IGenericRepositoryUpdateAnDelete<T> where T : class
+    public interface IGenericRepositoryUpdateAndDelete<T> where T : class
     {
         Task<int> Delete(T entity);
         Task<int> Update(T entity);
