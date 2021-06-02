@@ -7,8 +7,8 @@ namespace LojaQuadrinhos.DataAccess.Interfaces
 {
     public interface IGenericRepositoryUpdateAnDelete<T> where T : class
     {
-        Task<int> Delete(T entity);
-        Task<int> Update(T entity);
+        Task<int> Delete(object entityId);
+        Task<int> Update(object entityId);
     }
 
     public interface IGenericRepository<T>where T : class
