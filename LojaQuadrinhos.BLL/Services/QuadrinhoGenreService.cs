@@ -1,4 +1,5 @@
-﻿using LojaQuadrinhos.DataAccess.Repository;
+﻿using LojaQuadrinhos.BLL.Interfaces;
+using LojaQuadrinhos.DataAccess.Repository;
 using LojaQuadrinhos.Models;
 
 using System.Collections.Generic;
