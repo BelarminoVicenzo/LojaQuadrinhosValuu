@@ -4,14 +4,16 @@ using LojaQuadrinhos.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LojaQuadrinhos.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210603093810_RemovedColumnEmployeeIdFromPurchase")]
+    partial class RemovedColumnEmployeeIdFromPurchase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -78,13 +80,19 @@ namespace LojaQuadrinhos.DataAccess.Migrations
                     b.Property<int>("QuadrinhoId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("QuadrinhoId1")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ClientId")
                         .IsUnique();
 
-                    b.HasIndex("QuadrinhoId")
-                        .IsUnique();
+                    b.HasIndex("QuadrinhoId");
+
+                    b.HasIndex("QuadrinhoId1")
+                        .IsUnique()
+                        .HasFilter("[QuadrinhoId1] IS NOT NULL");
 
                     b.ToTable("Purchase");
                 });
@@ -377,15 +385,19 @@ namespace LojaQuadrinhos.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("LojaQuadrinhos.Models.Quadrinho", "Quadrinho")
-                        .WithOne("Purchase")
-                        .HasForeignKey("LojaQuadrinhos.Models.Purchase", "QuadrinhoId")
+                    b.HasOne("LojaQuadrinhos.Models.QuadrinhoGenre", "Genre")
+                        .WithMany()
+                        .HasForeignKey("QuadrinhoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("LojaQuadrinhos.Models.Quadrinho", null)
+                        .WithOne("Purchase")
+                        .HasForeignKey("LojaQuadrinhos.Models.Purchase", "QuadrinhoId1");
+
                     b.Navigation("Client");
 
-                    b.Navigation("Quadrinho");
+                    b.Navigation("Genre");
                 });
 
             modelBuilder.Entity("LojaQuadrinhos.Models.Quadrinho", b =>
