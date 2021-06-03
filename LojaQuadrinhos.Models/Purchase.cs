@@ -18,6 +18,9 @@ namespace LojaQuadrinhos.Models
         public int QuadrinhoId { get; set; }
         
         [Required]
+        public int PurchasedQuantity { get; set; }
+        
+        [Required]
         public DateTime PurchaseDate { get; set; }
 
         [ForeignKey(nameof(CustomerId))]
