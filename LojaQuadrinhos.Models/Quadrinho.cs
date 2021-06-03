@@ -21,6 +21,7 @@ namespace LojaQuadrinhos.Models
         
         [Required]
         public int ChapterNumbers { get; set; }
+        public int Quantity { get; set; }
 
         [ForeignKey(nameof(GenreId))]
         public virtual QuadrinhoGenre Genre { get; set; }
