@@ -11,12 +11,12 @@ namespace LojaQuadrinhos.DataAccess.Interfaces
         Task<int> Update(T entity);
     }
 
-    public interface IGenericRepository<T>where T : class
+    public interface IGenericRepository<T> where T : class
     {
 
         Task<int> Create(T entity);
         Task<T> Get(object id);
         Task<List<T>> GetAll();
-      
-      }
+
+    }
 }
