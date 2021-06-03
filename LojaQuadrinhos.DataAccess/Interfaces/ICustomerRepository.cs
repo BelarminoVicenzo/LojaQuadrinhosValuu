@@ -3,7 +3,7 @@ using LojaQuadrinhos.Models;
 
 namespace LojaQuadrinhos.DataAccess.Repository
 {
-    public interface IClientRepository:IGenericRepository<Client>, IGenericRepositoryUpdateAndDelete<Client>
+    public interface ICustomerRepository:IGenericRepository<Customer>, IGenericRepositoryUpdateAndDelete<Customer>
     {
 
     }

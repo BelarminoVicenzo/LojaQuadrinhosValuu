@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 namespace LojaQuadrinhos.Models
 {
 
-    public class Client
+    public class Customer
     {
         [Key]
         public int Id { get; set; }

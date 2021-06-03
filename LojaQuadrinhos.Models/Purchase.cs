@@ -12,7 +12,7 @@ namespace LojaQuadrinhos.Models
         public int Id { get; set; }
 
         [Required]
-        public int ClientId { get; set; }
+        public int CustomerId { get; set; }
         
         [Required]
         public int QuadrinhoId { get; set; }
@@ -20,8 +20,8 @@ namespace LojaQuadrinhos.Models
         [Required]
         public DateTime PurchaseDate { get; set; }
 
-        [ForeignKey(nameof(ClientId))]
-        public virtual Client Client { get; set; }
+        [ForeignKey(nameof(CustomerId))]
+        public virtual Customer Customer { get; set; }
 
         [ForeignKey(nameof(QuadrinhoId))]
         public virtual Quadrinho Quadrinho { get; set; }

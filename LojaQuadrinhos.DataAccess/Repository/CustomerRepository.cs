@@ -7,42 +7,42 @@ using System.Threading.Tasks;
 
 namespace LojaQuadrinhos.DataAccess.Repository
 {
-    public class ClientRepository : IClientRepository
+    public class CustomerRepository : ICustomerRepository
     {
 
         private readonly ApplicationDbContext _context;
 
-        public ClientRepository(ApplicationDbContext context)
+        public CustomerRepository(ApplicationDbContext context)
         {
             _context = context;
         }
-        public async Task<int> Create(Client entity)
+        public async Task<int> Create(Customer entity)
         {
-            _context.Client.Add(entity);
+            _context.Customer.Add(entity);
             return await _context.SaveChangesAsync();
         }
 
-        public async Task<int> Update(Client entity)
+        public async Task<int> Update(Customer entity)
         {
 
             _context.Update(entity);
             return await _context.SaveChangesAsync();
         }
 
-        public async Task<int> Delete(Client entity)
+        public async Task<int> Delete(Customer entity)
         {
             _context.Remove(entity);
             return await _context.SaveChangesAsync();
         }
 
-        public async Task<Client> Get(object id)
+        public async Task<Customer> Get(object id)
         {
-            return await _context.Client.FindAsync(id);
+            return await _context.Customer.FindAsync(id);
         }
 
-        public async Task<List<Client>> GetAll()
+        public async Task<List<Customer>> GetAll()
         {
-            return await _context.Client.ToListAsync();
+            return await _context.Customer.ToListAsync();
         }
 
     }
