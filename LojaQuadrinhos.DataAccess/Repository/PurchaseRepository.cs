@@ -17,8 +17,11 @@ namespace LojaQuadrinhos.DataAccess.Repository
         {
             _context = context;
         }
-        public async Task<int> Create(Purchase entity)
+        public async Task<int> Create(Purchase entity, Customer customer, Quadrinho quadrinho)
         {
+            entity.CustomerId = customer.Id;
+            entity.QuadrinhoId = quadrinho.Id;
+            _context.Quadrinho.Update(quadrinho);
             _context.Purchase.Add(entity);
             return await _context.SaveChangesAsync();
         }
