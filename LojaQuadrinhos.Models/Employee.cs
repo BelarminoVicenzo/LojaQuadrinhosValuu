@@ -15,7 +15,5 @@ namespace LojaQuadrinhos.Models
         [Required]
         [StringLength(80)]
         public string Email { get; set; }
-
-        public virtual Purchase Purchase { get; set; }
     }
 }
