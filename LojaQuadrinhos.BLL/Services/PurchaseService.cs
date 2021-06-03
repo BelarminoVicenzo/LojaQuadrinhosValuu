@@ -1,20 +1,22 @@
 ﻿using LojaQuadrinhos.BLL.Interfaces;
 using LojaQuadrinhos.DataAccess.Repository;
 using LojaQuadrinhos.Models;
-
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace LojaQuadrinhos.BLL.Service
 {
-    public class PurchaseService : IPurchaseService<Purchase>
+    public class PurchaseService : IPurchaseService
     {
 
         IPurchaseRepository _repo;
-        public PurchaseService(IPurchaseRepository repo)
+        ICustomerRepository _custRepo;
+        IQuadrinhoService _quadService;
+        public PurchaseService(IPurchaseRepository repo, ICustomerRepository custRepo, IQuadrinhoService quadService)
         {
             _repo = repo;
+            _custRepo = custRepo;
+            _quadService = quadService;
         }
 
         public async Task<List<Purchase>> GetAllPurchasesAsync()
@@ -30,9 +32,20 @@ namespace LojaQuadrinhos.BLL.Service
         }
 
 
-        public async Task<int> CreatePurchaseAsync(Purchase entity)
+        public async Task<int> CreatePurchaseAsync(Purchase entity, Customer customer, Quadrinho quadrinho)
         {
-                return await _repo.Create(entity);
+
+            var quad = _quadService.GetQuadrinhoAsync(quadrinho.Id).Result;
+            if (CheckQuadrinhoAvaiability(entity.PurchasedQuantity,quad.Quantity))
+            {
+
+            quad.Quantity -= entity.PurchasedQuantity;
+            return await _repo.Create(entity, customer, quad);
+            }
+            else
+            {
+                return 0;
+            }
         }
 
 
@@ -41,6 +54,11 @@ namespace LojaQuadrinhos.BLL.Service
             return await _repo.GetFromCustomer(customerId);
         }
 
-        
+
+        public bool CheckQuadrinhoAvaiability(int purchaseQuantity,int quadrinhoQuantity)
+        {
+            return quadrinhoQuantity>=purchaseQuantity ? true: false;
+        }
+
     }
 }
