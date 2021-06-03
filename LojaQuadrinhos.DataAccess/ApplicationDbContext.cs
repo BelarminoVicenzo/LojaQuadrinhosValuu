@@ -31,7 +31,7 @@ namespace LojaQuadrinhos.DataAccess
 
         public DbSet<QuadrinhoGenre> QuadrinhoGenre { get; set; }
         public DbSet<QuadrinhoState> QuadrinhoState { get; set; }
-        public DbSet<Client> Client { get; set; }
+        public DbSet<Customer> Customer { get; set; }
         public DbSet<Employee> Employee { get; set; }
         public DbSet<Quadrinho> Quadrinho { get; set; }
         public DbSet<Purchase> Purchase { get; set; }
