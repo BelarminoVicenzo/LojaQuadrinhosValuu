@@ -1,0 +1,80 @@
+﻿@model IEnumerable<LojaQuadrinhos.Models.QuadrinhoGenre>
+
+@{
+    ViewData["Title"] = "Genre for quadrinhos";
+}
+
+<h1>List of avaiable genre for quadrinhos</h1>
+
+<p>
+    <br />    <button class="btn btn-success create">Add new genre</button>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+
+                <td>
+                    <button class="btn btn-link edit" data-id="@item.Id">Edit</button>|
+                    <button class="btn btn-link delete" data-id="@item.Id">Delete</button>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<div id="modal" class="modal fade" role="dialog">
+
+</div>
+
+
+
+@section scripts{
+    <script>
+        $(function () {
+
+            $(".delete").click(function () {
+                var id = $(this).attr("data-id");
+
+                $("#modal").load("/QuadrinhoGenre/Delete/" + id, function () {
+                    $("#modal").modal();
+                })
+            });
+
+
+            $(".edit").click(function () {
+                var id = $(this).attr("data-id");
+                $("#modal").load("/QuadrinhoGenre/Update/" + id, function () {
+                    $("#modal").modal();
+                })
+
+
+            });
+
+            $(".create").click(function () {
+                $("#modal").load("/QuadrinhoGenre/Create", function () {
+                    $("#modal").modal();
+                })
+            });
+
+
+
+        })
+    </script>
+}
