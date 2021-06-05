@@ -11,7 +11,7 @@ namespace LojaQuadrinhos.DataAccess.Repository
     {
         Task<IdentityResult> Create(IdentityRole entity);
         Task<IdentityResult> Delete(IdentityRole entity);
-        Task<int> Update(IdentityRole entity);
+        Task<IdentityResult> Update(IdentityRole entity);
         Task<List<IdentityRole>> GetAll();
         Task<IdentityRole> Get(string id);
         

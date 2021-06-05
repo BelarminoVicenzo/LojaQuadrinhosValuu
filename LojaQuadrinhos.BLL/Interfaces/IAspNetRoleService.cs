@@ -9,7 +9,7 @@ namespace LojaQuadrinhos.BLL.Interfaces
         Task<IdentityRole> GetRoleAsync(string id);
         Task<IdentityResult> CreateRoleAsync(IdentityRole entity);
         Task<List<IdentityRole>> GetRolesAsync();
-        Task<int> UpdateRoleAsync(IdentityRole entity);
+        Task<IdentityResult> UpdateRoleAsync(IdentityRole entity);
         Task<IdentityResult> DeleteRoleAsync(string id);
 
     }

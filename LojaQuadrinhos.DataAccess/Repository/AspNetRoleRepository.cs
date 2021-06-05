@@ -27,7 +27,7 @@ namespace LojaQuadrinhos.DataAccess.Repository
             return await _roleManager.CreateAsync(entity);
         }
 
-        public async Task<int> Update(IdentityRole entity)
+        public async Task<IdentityResult> Update(IdentityRole entity)
         {
 
             #region IDK What to do, EF is crazy, ship as it is for now
@@ -45,7 +45,6 @@ namespace LojaQuadrinhos.DataAccess.Repository
             #endregion
 
             return await _roleManager.UpdateAsync(entity);
-            _context.Roles.Update(entity);
         }
 
         public async Task<IdentityResult> Delete(IdentityRole entity)

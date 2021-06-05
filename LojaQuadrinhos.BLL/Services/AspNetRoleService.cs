@@ -35,7 +35,7 @@ namespace LojaQuadrinhos.BLL.Service
         }
 
         
-        public async Task<int> UpdateRoleAsync(IdentityRole entity)
+        public async Task<IdentityResult> UpdateRoleAsync(IdentityRole entity)
         {
             return await _repo.Update(entity);
         }
