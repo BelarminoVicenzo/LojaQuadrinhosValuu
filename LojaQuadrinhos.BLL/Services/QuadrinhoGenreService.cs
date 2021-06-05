@@ -9,7 +9,7 @@ namespace LojaQuadrinhos.BLL.Service
 {
 
 
-    public class QuadrinhoGenreService : IQuadrinhoGenreService<QuadrinhoGenre>
+    public class QuadrinhoGenreService : IQuadrinhoGenreService
     {
 
         IQuadrinhoGenreRepository _repo;
