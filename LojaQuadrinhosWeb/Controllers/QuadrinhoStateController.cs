@@ -75,12 +75,12 @@ namespace LojaQuadrinhosWeb.Controllers
             {
                 return BadRequest();
             }
-            var role = await _stateService.GetStateAsync((int)id);
-            if (role == null)
+            var state = await _stateService.GetStateAsync((int)id);
+            if (state == null)
             {
                 return NotFound();
             }
-            return View(role);
+            return View(state);
         }
 
       
