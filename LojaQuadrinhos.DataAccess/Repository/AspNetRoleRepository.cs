@@ -34,7 +34,6 @@ namespace LojaQuadrinhos.DataAccess.Repository
             //considering change to dapper idk
             //QUERY ONLY works with Management Studio
 
-            #endregion
             //somehow is creating a new role and not updating
             //return await _roleManager.UpdateAsync(entity);
             //_context.Roles.Update(entity);
@@ -43,6 +42,10 @@ namespace LojaQuadrinhos.DataAccess.Repository
             //_context.Roles.FromSqlRaw($"UPDATE [dbo].[AspNetRoles] set [Name] = '{entity.Name}', " +
             //    $"[NormalizedName] = '{entity.NormalizedName}' WHERE Id= '{entity.Id}'");
             //return await _context.SaveChangesAsync();
+            #endregion
+
+            return await _roleManager.UpdateAsync(entity);
+            _context.Roles.Update(entity);
         }
 
         public async Task<IdentityResult> Delete(IdentityRole entity)
