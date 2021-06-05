@@ -5,12 +5,12 @@ using System.Threading.Tasks;
 
 namespace LojaQuadrinhos.BLL.Interfaces
 {
-    public interface IQuadrinhoStateService<T>
+    public interface IQuadrinhoStateService
     {
-        Task<T> GetStateAsync(int id);
-        Task<int> CreateStateAsync(T entity);
-        Task<List<T>> GetAllStateAsync();
-        Task<int> UpdateStateAsync(T entity);
-        Task<int> DeleteStateAsync(T entity);
+        Task<QuadrinhoState> GetStateAsync(int id);
+        Task<int> CreateStateAsync(QuadrinhoState entity);
+        Task<List<QuadrinhoState>> GetAllStateAsync();
+        Task<int> UpdateStateAsync(QuadrinhoState entity);
+        Task<int> DeleteStateAsync(QuadrinhoState entity);
     }
 }
