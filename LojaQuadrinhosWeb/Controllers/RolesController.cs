@@ -27,7 +27,7 @@ namespace LojaQuadrinhosWeb.Controllers
 
         public IActionResult Create()
         {
-            return View(new IdentityRole());
+            return View();
         }
 
         [HttpPost]
