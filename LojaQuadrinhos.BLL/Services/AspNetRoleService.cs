@@ -23,8 +23,8 @@ namespace LojaQuadrinhos.BLL.Service
 
         public async Task<IdentityRole> GetRoleAsync(string id)
         {
-            var purch = await _repo.Get(id);
-            if (purch != null) return purch;
+            var role = await _repo.Get(id);
+            if (role != null) return role;
             else return new IdentityRole();
         }
 
