@@ -1,14 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using LojaQuadrinhos.Models;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace LojaQuadrinhos.BLL.Interfaces
 {
-    public interface ICustomerService<T>
+    public interface ICustomerService
     {
-        Task<T> GetCustomerAsync(int id);
-        Task<int> CreateCustomerAsync(T entity);
-        Task<List<T>> GetAllCustomersAsync();
-        Task<int> UpdateCustomerAsync(T entity);
-        Task<int> DeleteCustomerAsync(T entity);
+        Task<Customer> GetCustomerAsync(int id);
+        Task<int> CreateCustomerAsync(Customer entity);
+        Task<List<Customer>> GetAllCustomersAsync();
+        Task<int> UpdateCustomerAsync(Customer entity);
+        Task<int> DeleteCustomerAsync(Customer entity);
     }
 }
