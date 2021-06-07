@@ -5,7 +5,7 @@ using LojaQuadrinhos.Models;
 
 namespace LojaQuadrinhos.DataAccess
 {
-    public class ApplicationDbContext : IdentityDbContext<IdentityUser>
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
 
 
