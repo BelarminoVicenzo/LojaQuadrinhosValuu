@@ -1,14 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using LojaQuadrinhos.Models;
+
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace LojaQuadrinhos.BLL.Interfaces
 {
-    public interface IEmployeeService<T>
+    public interface IEmployeeService
     {
-        Task<T> GetEmployeeAsync(int id);
-        Task<int> CreateEmployeeAsync(T entity);
-        Task<List<T>> GetAllEmployeeAsync();
-        Task<int> UpdateEmployeeAsync(T entity);
-        Task<int> DeleteEmployeeAsync(T entity);
+        Task<Employee> GetEmployeeAsync(int id);
+        Task<int> CreateEmployeeAsync(Employee entity);
+        Task<List<Employee>> GetAllEmployeeAsync();
+        Task<int> UpdateEmployeeAsync(Employee entity);
+        Task<int> DeleteEmployeeAsync(Employee entity);
     }
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LojaQuadrinhos.BLL.Service
 {
-    public class EmployeeService : IEmployeeService<Employee>
+    public class EmployeeService : IEmployeeService
     {
 
         IEmployeeRepository _repo;
