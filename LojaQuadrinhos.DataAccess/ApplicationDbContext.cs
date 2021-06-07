@@ -21,11 +21,6 @@ namespace LojaQuadrinhos.DataAccess
 
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<ApplicationUser>()
-                .HasIndex(u => u.EmployeeId)
-                .IsUnique();
-
-
         }
 
 
@@ -35,6 +30,7 @@ namespace LojaQuadrinhos.DataAccess
         public DbSet<Employee> Employee { get; set; }
         public DbSet<Quadrinho> Quadrinho { get; set; }
         public DbSet<Purchase> Purchase { get; set; }
+        public DbSet<UserType> UserType { get; set; }
 
 
     }
