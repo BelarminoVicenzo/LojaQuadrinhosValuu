@@ -4,14 +4,16 @@ using LojaQuadrinhos.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LojaQuadrinhos.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210607165223_AddUserTypeIdFKToAspNetUsers")]
+    partial class AddUserTypeIdFKToAspNetUsers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -19,7 +21,7 @@ namespace LojaQuadrinhos.DataAccess.Migrations
                 .HasAnnotation("ProductVersion", "5.0.6")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("LojaQuadrinhos.Models.ApplicationUser", b =>
+            modelBuilder.Entity("LojaQuadrinhos.DataAccess.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -37,11 +39,6 @@ namespace LojaQuadrinhos.DataAccess.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
-
-                    b.Property<string>("FullName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -94,12 +91,58 @@ namespace LojaQuadrinhos.DataAccess.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("LojaQuadrinhos.Models.Customer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(80)
+                        .HasColumnType("nvarchar(80)");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Customer");
+                });
+
+            modelBuilder.Entity("LojaQuadrinhos.Models.Employee", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(80)
+                        .HasColumnType("nvarchar(80)");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Employee");
+                });
+
             modelBuilder.Entity("LojaQuadrinhos.Models.Purchase", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("PurchaseDate")
                         .HasColumnType("datetime2");
@@ -110,15 +153,13 @@ namespace LojaQuadrinhos.DataAccess.Migrations
                     b.Property<int>("QuadrinhoId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Userid")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("QuadrinhoId");
+                    b.HasIndex("CustomerId")
+                        .IsUnique();
 
-                    b.HasIndex("Userid");
+                    b.HasIndex("QuadrinhoId")
+                        .IsUnique();
 
                     b.ToTable("Purchase");
                 });
@@ -338,7 +379,7 @@ namespace LojaQuadrinhos.DataAccess.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("LojaQuadrinhos.Models.ApplicationUser", b =>
+            modelBuilder.Entity("LojaQuadrinhos.DataAccess.ApplicationUser", b =>
                 {
                     b.HasOne("LojaQuadrinhos.Models.UserType", "UserType")
                         .WithMany()
@@ -351,21 +392,21 @@ namespace LojaQuadrinhos.DataAccess.Migrations
 
             modelBuilder.Entity("LojaQuadrinhos.Models.Purchase", b =>
                 {
-                    b.HasOne("LojaQuadrinhos.Models.Quadrinho", "Quadrinho")
-                        .WithMany()
-                        .HasForeignKey("QuadrinhoId")
+                    b.HasOne("LojaQuadrinhos.Models.Customer", "Customer")
+                        .WithOne("Purchase")
+                        .HasForeignKey("LojaQuadrinhos.Models.Purchase", "CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("LojaQuadrinhos.Models.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("Userid")
+                    b.HasOne("LojaQuadrinhos.Models.Quadrinho", "Quadrinho")
+                        .WithOne("Purchase")
+                        .HasForeignKey("LojaQuadrinhos.Models.Purchase", "QuadrinhoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Customer");
 
                     b.Navigation("Quadrinho");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("LojaQuadrinhos.Models.Quadrinho", b =>
@@ -398,7 +439,7 @@ namespace LojaQuadrinhos.DataAccess.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("LojaQuadrinhos.Models.ApplicationUser", null)
+                    b.HasOne("LojaQuadrinhos.DataAccess.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -407,7 +448,7 @@ namespace LojaQuadrinhos.DataAccess.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("LojaQuadrinhos.Models.ApplicationUser", null)
+                    b.HasOne("LojaQuadrinhos.DataAccess.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -422,7 +463,7 @@ namespace LojaQuadrinhos.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("LojaQuadrinhos.Models.ApplicationUser", null)
+                    b.HasOne("LojaQuadrinhos.DataAccess.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -431,11 +472,21 @@ namespace LojaQuadrinhos.DataAccess.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("LojaQuadrinhos.Models.ApplicationUser", null)
+                    b.HasOne("LojaQuadrinhos.DataAccess.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("LojaQuadrinhos.Models.Customer", b =>
+                {
+                    b.Navigation("Purchase");
+                });
+
+            modelBuilder.Entity("LojaQuadrinhos.Models.Quadrinho", b =>
+                {
+                    b.Navigation("Purchase");
                 });
 
             modelBuilder.Entity("LojaQuadrinhos.Models.QuadrinhoGenre", b =>

@@ -4,14 +4,16 @@ using LojaQuadrinhos.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LojaQuadrinhos.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210608062751_AddFKColumnUserIdToPurchase")]
+    partial class AddFKColumnUserIdToPurchase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -116,7 +118,8 @@ namespace LojaQuadrinhos.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("QuadrinhoId");
+                    b.HasIndex("QuadrinhoId")
+                        .IsUnique();
 
                     b.HasIndex("Userid");
 
@@ -352,8 +355,8 @@ namespace LojaQuadrinhos.DataAccess.Migrations
             modelBuilder.Entity("LojaQuadrinhos.Models.Purchase", b =>
                 {
                     b.HasOne("LojaQuadrinhos.Models.Quadrinho", "Quadrinho")
-                        .WithMany()
-                        .HasForeignKey("QuadrinhoId")
+                        .WithOne("Purchase")
+                        .HasForeignKey("LojaQuadrinhos.Models.Purchase", "QuadrinhoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -436,6 +439,11 @@ namespace LojaQuadrinhos.DataAccess.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("LojaQuadrinhos.Models.Quadrinho", b =>
+                {
+                    b.Navigation("Purchase");
                 });
 
             modelBuilder.Entity("LojaQuadrinhos.Models.QuadrinhoGenre", b =>
