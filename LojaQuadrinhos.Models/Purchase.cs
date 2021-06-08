@@ -10,21 +10,22 @@ namespace LojaQuadrinhos.Models
     {
         [Key]
         public int Id { get; set; }
-
-        [Required]
-        public int CustomerId { get; set; }
-        
+ 
         [Required]
         public int QuadrinhoId { get; set; }
-        
-        [Required]
-        public int PurchasedQuantity { get; set; }
-        
+
         [Required]
         public DateTime PurchaseDate { get; set; }
 
-        [ForeignKey(nameof(CustomerId))]
-        public virtual Customer Customer { get; set; }
+        [Required]
+        public int PurchasedQuantity { get; set; }
+       
+        [Required]
+        public string UserId { get; set; }
+        
+
+        [ForeignKey(nameof(UserId))]
+        public virtual ApplicationUser User { get; set; }
 
         [ForeignKey(nameof(QuadrinhoId))]
         public virtual Quadrinho Quadrinho { get; set; }
