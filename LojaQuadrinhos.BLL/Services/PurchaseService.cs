@@ -10,9 +10,9 @@ namespace LojaQuadrinhos.BLL.Service
     {
 
         IPurchaseRepository _repo;
-        IAspNetUserRepository _userRepo;
+        IUserRepository _userRepo;
         IQuadrinhoService _quadService;
-        public PurchaseService(IPurchaseRepository repo, IAspNetUserRepository custRepo, IQuadrinhoService quadService)
+        public PurchaseService(IPurchaseRepository repo, IUserRepository custRepo, IQuadrinhoService quadService)
         {
             _repo = repo;
             _userRepo = custRepo;
@@ -46,7 +46,7 @@ namespace LojaQuadrinhos.BLL.Service
             {
                 return 0;
             }
-            return 0;
+            
         }
 
 
