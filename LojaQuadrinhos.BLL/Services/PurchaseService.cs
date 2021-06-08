@@ -1,5 +1,5 @@
 ﻿using LojaQuadrinhos.BLL.Interfaces;
-using LojaQuadrinhos.DataAccess.Repository;
+using LojaQuadrinhos.DataAccess.Interfaces;
 using LojaQuadrinhos.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -10,12 +10,12 @@ namespace LojaQuadrinhos.BLL.Service
     {
 
         IPurchaseRepository _repo;
-        ICustomerRepository _custRepo;
+        IAspNetUserRepository _userRepo;
         IQuadrinhoService _quadService;
-        public PurchaseService(IPurchaseRepository repo, ICustomerRepository custRepo, IQuadrinhoService quadService)
+        public PurchaseService(IPurchaseRepository repo, IAspNetUserRepository custRepo, IQuadrinhoService quadService)
         {
             _repo = repo;
-            _custRepo = custRepo;
+            _userRepo = custRepo;
             _quadService = quadService;
         }
 
@@ -32,20 +32,21 @@ namespace LojaQuadrinhos.BLL.Service
         }
 
 
-        public async Task<int> CreatePurchaseAsync(Purchase entity, Customer customer, Quadrinho quadrinho)
+        public async Task<int> CreatePurchaseAsync(Purchase entity, ApplicationUser user, Quadrinho quadrinho)
         {
 
             var quad = _quadService.GetQuadrinhoAsync(quadrinho.Id).Result;
-            if (CheckQuadrinhoAvaiability(entity.PurchasedQuantity,quad.Quantity))
+            if (CheckQuadrinhoAvaiability(entity.PurchasedQuantity, quad.Quantity))
             {
 
-            quad.Quantity -= entity.PurchasedQuantity;
-            return await _repo.Create(entity, customer, quad);
+                quad.Quantity -= entity.PurchasedQuantity;
+                return await _repo.Create(entity, user, quad);
             }
             else
             {
                 return 0;
             }
+            return 0;
         }
 
 
@@ -55,9 +56,9 @@ namespace LojaQuadrinhos.BLL.Service
         }
 
 
-        public bool CheckQuadrinhoAvaiability(int purchaseQuantity,int quadrinhoQuantity)
+        public bool CheckQuadrinhoAvaiability(int purchaseQuantity, int quadrinhoQuantity)
         {
-            return quadrinhoQuantity>=purchaseQuantity ? true: false;
+            return quadrinhoQuantity >= purchaseQuantity ? true : false;
         }
 
     }

@@ -1,5 +1,6 @@
 using LojaQuadrinhos.BLL.Interfaces;
 using LojaQuadrinhos.BLL.Service;
+using LojaQuadrinhos.DataAccess.Interfaces;
 using LojaQuadrinhos.DataAccess.Repository;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -14,7 +15,7 @@ namespace LojaQuadrinhosValuu.BLL.Tests
 
         //no need to initialize for now
         IPurchaseRepository _repo;
-        ICustomerRepository _custRepo;
+        IAspNetUserRepository _userRepo;
         IQuadrinhoService _quadService;
 
         [TestInitialize]
@@ -28,36 +29,36 @@ namespace LojaQuadrinhosValuu.BLL.Tests
         public void QuadrinhoQuantityLessThanBuyingQuantity_ReturnsFalse()
         {
             //arrange
-            PurchaseService ps = new PurchaseService(_repo,_custRepo,_quadService);
+            PurchaseService ps = new PurchaseService(_repo, _userRepo, _quadService);
 
             //act
-            var result= ps.CheckQuadrinhoAvaiability(10,3);
+            var result = ps.CheckQuadrinhoAvaiability(10, 3);
 
             //assert
             Assert.IsFalse(result);
         }
-        
+
         [TestMethod]
         public void QuadrinhoQuantityIsEqualThanBuyingQuantity_ReturnsTrue()
         {
             //arrange
-            PurchaseService ps = new PurchaseService(_repo,_custRepo,_quadService);
-            
+            PurchaseService ps = new PurchaseService(_repo, _userRepo, _quadService);
+
             //act
-            var result= ps.CheckQuadrinhoAvaiability(1,1);
+            var result = ps.CheckQuadrinhoAvaiability(1, 1);
 
             //assert
             Assert.IsTrue(result);
         }
-        
+
         [TestMethod]
         public void QuadrinhoQuantityIsMoreThanBuyingQuantity_ReturnsTrue()
         {
             //arrange
-            PurchaseService ps = new PurchaseService(_repo,_custRepo,_quadService);
+            PurchaseService ps = new PurchaseService(_repo, _userRepo, _quadService);
 
             //act
-            var result= ps.CheckQuadrinhoAvaiability(10,30);
+            var result = ps.CheckQuadrinhoAvaiability(10, 30);
 
             //assert
             Assert.IsTrue(result);
