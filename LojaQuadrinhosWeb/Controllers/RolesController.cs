@@ -13,9 +13,9 @@ namespace LojaQuadrinhosWeb.Controllers
 {
     public class RolesController : Controller
     {
-        IAspNetRoleService _roleService;
+        IRolesService _roleService;
 
-        public RolesController(IAspNetRoleService roleService)
+        public RolesController(IRolesService roleService)
         {
             _roleService = roleService;
         }

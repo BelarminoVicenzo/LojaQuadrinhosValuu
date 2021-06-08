@@ -10,14 +10,14 @@ using System.Threading.Tasks;
 namespace LojaQuadrinhos.DataAccess.Repository
 {
 
-    public class AspNetRoleRepository : IAspNetRoleRepository
+    public class RolesRepository : IRolesRepository
     {
 
         private readonly ApplicationDbContext _context;
 
         RoleManager<IdentityRole> _roleManager;
 
-        public AspNetRoleRepository(ApplicationDbContext context,RoleManager<IdentityRole> roleManager)
+        public RolesRepository(ApplicationDbContext context,RoleManager<IdentityRole> roleManager)
         {
             _context = context;
             _roleManager = roleManager;

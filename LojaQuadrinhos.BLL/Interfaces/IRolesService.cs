@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace LojaQuadrinhos.BLL.Interfaces
 {
-    public interface IAspNetRoleService
+    public interface IRolesService
     {
         Task<IdentityRole> GetRoleAsync(string id);
         Task<IdentityResult> CreateRoleAsync(IdentityRole entity);

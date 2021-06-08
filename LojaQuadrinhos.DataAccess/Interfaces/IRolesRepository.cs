@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace LojaQuadrinhos.DataAccess.Interfaces
 {
-    public interface IAspNetRoleRepository
+    public interface IRolesRepository
     {
         Task<IdentityResult> Create(IdentityRole entity);
         Task<IdentityResult> Delete(IdentityRole entity);

@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace LojaQuadrinhos.BLL.Service
 {
-    public class AspNetRoleService : IAspNetRoleService
+    public class RolesService : IRolesService
     {
 
-        IAspNetRoleRepository _repo;
-        public AspNetRoleService(IAspNetRoleRepository repo)
+        IRolesRepository _repo;
+        public RolesService(IRolesRepository repo)
         {
             _repo = repo;
 
