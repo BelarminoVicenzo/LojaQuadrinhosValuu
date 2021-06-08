@@ -1,0 +1,60 @@
+﻿@model LojaQuadrinhos.BLL.Models.LoginModel
+
+@{
+    ViewData["Title"] = "Login";
+}
+
+
+<hr />
+
+@User.Identity.Name sd
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Login" method="post">
+            @Html.AntiForgeryToken()
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+           
+             
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="Email" class="control-label"></label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Password" class="control-label"></label>
+                    <input asp-for="Password" class="form-control" type="password" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+ 
+
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label asp-for="RememberMe" class="control-label"></label>
+                        <input asp-for="RememberMe" />
+                    </div>
+                </div>
+
+            </div>
+
+           
+
+
+            <div class="form-group col-md-10">
+                <input type="submit" value="Login" class="btn btn-success col-md-7" />
+            </div>
+
+        </form>
+    </div>
+</div>
+
+
+
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
