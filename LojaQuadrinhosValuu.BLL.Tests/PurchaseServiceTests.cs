@@ -15,7 +15,7 @@ namespace LojaQuadrinhosValuu.BLL.Tests
 
         //no need to initialize for now
         IPurchaseRepository _repo;
-        IAspNetUserRepository _userRepo;
+        IUserRepository _userRepo;
         IQuadrinhoService _quadService;
 
         [TestInitialize]
