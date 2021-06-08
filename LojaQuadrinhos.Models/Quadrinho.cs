@@ -30,7 +30,5 @@ namespace LojaQuadrinhos.Models
         [ForeignKey(nameof(QuadrinhoStateId))]
         public virtual QuadrinhoState State { get; set; }
 
-        public virtual Purchase Purchase { get; set; }
-
     }
 }
