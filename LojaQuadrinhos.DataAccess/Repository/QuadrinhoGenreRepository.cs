@@ -1,10 +1,7 @@
-﻿using LojaQuadrinhos.Models;
-
+﻿using LojaQuadrinhos.DataAccess.Interfaces;
+using LojaQuadrinhos.Models;
 using Microsoft.EntityFrameworkCore;
-
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace LojaQuadrinhos.DataAccess.Repository

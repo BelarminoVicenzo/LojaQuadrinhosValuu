@@ -1,11 +1,8 @@
-﻿using LojaQuadrinhos.DataAccess.Interfaces;
-
-using Microsoft.AspNetCore.Identity;
-
+﻿using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace LojaQuadrinhos.DataAccess.Repository
+namespace LojaQuadrinhos.DataAccess.Interfaces
 {
     public interface IAspNetRoleRepository
     {

@@ -1,4 +1,5 @@
-﻿using LojaQuadrinhos.Models;
+﻿using LojaQuadrinhos.DataAccess.Interfaces;
+using LojaQuadrinhos.Models;
 
 using Microsoft.EntityFrameworkCore;
 
