@@ -29,7 +29,7 @@ namespace LojaQuadrinhosWeb
 
 
             /* EF Identity */
-            services.AddIdentity<LojaQuadrinhos.DataAccess.ApplicationUser, IdentityRole>()
+            services.AddIdentity<LojaQuadrinhos.Models.ApplicationUser, IdentityRole>()
                        .AddEntityFrameworkStores<LojaQuadrinhos.DataAccess.ApplicationDbContext>()
                        .AddDefaultTokenProviders();
 
