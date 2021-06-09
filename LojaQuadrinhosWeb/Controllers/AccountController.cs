@@ -37,7 +37,7 @@ namespace LojaQuadrinhosWeb.Controllers
 
 
         [AllowAnonymous]
-        public async Task<IActionResult> RegisterExtAsync()
+        public async Task<IActionResult> RegisterExt()
         {
             var userTypes = from u in await _userType.GetAllUserTypeAsync() where u.Type != "Employee" select u;
             ViewBag.UserType = new SelectList(userTypes, "Id", "Type");
@@ -48,15 +48,15 @@ namespace LojaQuadrinhosWeb.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AllowAnonymous]
-        public async Task<IActionResult> RegisterExtAsync(ApplicationUser user)
+        public async Task<IActionResult> RegisterExt(ApplicationUser user)
         {
             await _userService.CreateUserAsync(user);
             return RedirectToAction("Index");
         }
 
 
-        //to internal register, than Employees can be registered
-        public async Task<IActionResult> RegisterAsync()
+        //for internal register, than Employees can be registered
+        public async Task<IActionResult> Register()
         {
             var userTypes = await _userType.GetAllUserTypeAsync();
             ViewBag.UserType = new SelectList(userTypes, "Id", "Type");
@@ -66,52 +66,51 @@ namespace LojaQuadrinhosWeb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> RegisterAsync(ApplicationUser user)
+        public async Task<IActionResult> Register(ApplicationUser user)
         {
             await _userService.CreateUserAsync(user);
             return RedirectToAction("Index");
         }
 
 
-        //[AllowAnonymous]
-        //public IActionResult Login(string returnUrl)
-        //{
-        //    if (User.Identity.IsAuthenticated)
-        //    {
-        //        ViewBag.ReturnUrl = returnUrl;
-        //        return RedirectToAction("Index", "Home");
-        //    }
-        //    else
-        //    {
-        //        return View();
-        //    }
-        
-        
-        
-        //}
+        [AllowAnonymous]
+        public IActionResult Login(string returnUrl)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                ViewBag.ReturnUrl = returnUrl;
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                return View();
+            }
 
-        //[HttpPost]
-        //[AllowAnonymous]
-        //[ValidateAntiForgeryToken]
-        ////replace with login model later
-        //public async Task<ActionResult> Login(LoginModel model)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return View(model);
-        //    }
-        //    else
-        //    {
 
-        //        var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
-        //        if (result.Succeeded)
-        //        {
-        //            return RedirectToAction("Index", "Home");
-        //        }
-        //        return View(model);
-        //    }
 
-        //}
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Login(LoginModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            else
+            {
+
+                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+                return View(model);
+            }
+
+        }
 
         [Authorize]
         public IActionResult Teste()

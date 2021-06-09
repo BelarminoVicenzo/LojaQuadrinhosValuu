@@ -22,13 +22,13 @@ namespace LojaQuadrinhosWeb.Controllers
             _userService = userService;
             _userType = userType;
         }
-        public async Task<IActionResult> IndexAsync()
+        public async Task<IActionResult> Index()
         {
             return View(await _userService.GetUsersAsync()) ;
         }
 
        
-        public async Task<IActionResult> CreateAsync()
+        public async Task<IActionResult> Create()
         {
             var userTypes = from u in await _userType.GetAllUserTypeAsync() where u.Type!="Employee" select u;
             ViewBag.UserType = new SelectList(userTypes, "Id", "Type") ;
@@ -38,14 +38,14 @@ namespace LojaQuadrinhosWeb.Controllers
       
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateAsync(ApplicationUser user)
+        public async Task<IActionResult> Create(ApplicationUser user)
         {
             await _userService.CreateUserAsync(user);
             return RedirectToAction("Index");
         }
 
       
-        public async Task<IActionResult> UpdateAsync(string id)
+        public async Task<IActionResult> Update(string id)
         {
             if (id == null)
             {
@@ -63,7 +63,7 @@ namespace LojaQuadrinhosWeb.Controllers
      
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UpdateAsync([Bind("Id,Name")] ApplicationUser user)
+        public async Task<IActionResult> Update([Bind("Id,Name")] ApplicationUser user)
         {
             if (ModelState.IsValid)
             {
@@ -74,7 +74,7 @@ namespace LojaQuadrinhosWeb.Controllers
         }
 
    
-        public async Task<IActionResult> DeleteAsync(string id)
+        public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
             {
@@ -91,7 +91,7 @@ namespace LojaQuadrinhosWeb.Controllers
       
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmedAsync(string id)
+        public async Task<IActionResult> DeleteConfirmed(string id)
         {
             await _userService.DeleteUserAsync(id);
             return RedirectToAction("Index");

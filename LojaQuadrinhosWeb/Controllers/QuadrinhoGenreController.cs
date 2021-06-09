@@ -18,7 +18,7 @@ namespace LojaQuadrinhosWeb.Controllers
         {
             _genreService = stateService;
         }
-        public async Task<IActionResult> IndexAsync()
+        public async Task<IActionResult> Index()
         {
             return View(await _genreService.GetAllGenreAsync()) ;
         }
@@ -32,14 +32,14 @@ namespace LojaQuadrinhosWeb.Controllers
       
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateAsync(QuadrinhoGenre state)
+        public async Task<IActionResult> Create(QuadrinhoGenre state)
         {
             await _genreService.CreateGenreAsync(state);
             return RedirectToAction("Index");
         }
 
       
-        public async Task<IActionResult> UpdateAsync(int? id)
+        public async Task<IActionResult> Update(int? id)
         {
             if (id == null)
             {
@@ -57,7 +57,7 @@ namespace LojaQuadrinhosWeb.Controllers
      
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UpdateAsync([Bind("Id,Name")] QuadrinhoGenre genre)
+        public async Task<IActionResult> Update([Bind("Id,Name")] QuadrinhoGenre genre)
         {
             if (ModelState.IsValid)
             {
@@ -68,7 +68,7 @@ namespace LojaQuadrinhosWeb.Controllers
         }
 
    
-        public async Task<IActionResult> DeleteAsync(int? id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
@@ -85,7 +85,7 @@ namespace LojaQuadrinhosWeb.Controllers
       
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmedAsync(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
             await _genreService.DeleteGenreAsync(_genreService.GetGenreAsync(id).Result);
             return RedirectToAction("Index");
