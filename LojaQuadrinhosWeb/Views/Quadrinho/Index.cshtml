@@ -6,9 +6,18 @@
 
 <h1>List of avaiable quadrinhos</h1>
 
-<p>
-    <br />    <button class="btn btn-success create">Add new quadrinho</button>
-</p>
+
+@{
+
+    if (this.User.Identity.IsAuthenticated)
+    {
+
+        <p>
+            <br />    <button class="btn btn-success create">Add new quadrinho</button>
+        </p>
+
+    }
+}
 <table class="table">
     <thead>
         <tr>
@@ -156,7 +165,7 @@
                 })
             });
 
- 
+
         })
     </script>
 
