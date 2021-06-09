@@ -112,19 +112,10 @@ namespace LojaQuadrinhosWeb.Controllers
 
         }
 
-        [Authorize]
-        public IActionResult Teste()
+        public async Task<IActionResult> Logout()
         {
-            bool isAuthenticated = User.Identity.IsAuthenticated;
-            if (isAuthenticated)
-            {
-               
-            return Json("okay");
-            }
-            else
-            {
-                return Json("No login");
-            }
+             await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
         }
 
 
