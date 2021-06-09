@@ -38,12 +38,12 @@ namespace LojaQuadrinhos.DataAccess.Repository
 
         public async Task<Quadrinho> Get(object id)
         {
-            return await _context.Quadrinho.FindAsync(id);
+            return await _context.Quadrinho.Include(s => s.State).Include(g => g.Genre).FirstAsync(q=>q.Id==(int)id);
         }
 
         public async Task<List<Quadrinho>> GetAll()
         {
-            return await _context.Quadrinho.ToListAsync();
+            return await _context.Quadrinho.Include(s=>s.State).Include(g=>g.Genre).ToListAsync();
         }
 
     }
