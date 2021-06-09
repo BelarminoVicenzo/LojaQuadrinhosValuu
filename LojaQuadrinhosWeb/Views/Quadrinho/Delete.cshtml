@@ -1,0 +1,37 @@
+﻿@model LojaQuadrinhos.Models.Quadrinho
+
+
+<div class="modal-dialog">
+    <div class="modal-content">
+
+        <div class="modal-header">
+            <h4 class="modal-title">Delete quadrinho</h4>
+            <button type="button" class="close" data-dismiss="modal">
+                <span aria-hidden="true">x</span><span class="sr-only">Close</span>
+            </button>
+        </div><!--modal-header-->
+        <div>
+
+                <h5 class="text-center">Are you sure you want to delete this record?</h5>
+            <hr />
+            <div class="modal-body">
+                <dl class="row">
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.Name)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Name)
+                    </dd>
+                </dl>
+
+                <form asp-action="Delete">
+                    <input type="hidden" asp-for="Id" />
+                    <div class="modal-footer">
+                        <input type="submit" value="Delete" class="btn btn-danger" />
+                    </div><!--modal-footer-->
+                </form>
+            </div><!--modal-body-->
+
+        </div>
+    </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->

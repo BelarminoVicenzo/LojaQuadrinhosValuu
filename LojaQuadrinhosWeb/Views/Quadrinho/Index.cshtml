@@ -1,0 +1,163 @@
+﻿@model IEnumerable<LojaQuadrinhos.Models.Quadrinho>
+
+@{
+    ViewData["Title"] = "Quadrinhos";
+}
+
+<h1>List of avaiable quadrinhos</h1>
+
+<p>
+    <br />    <button class="btn btn-success create">Add new quadrinho</button>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+
+            <th>
+                @Html.DisplayName("State")
+            </th>
+
+
+            <th>
+                @Html.DisplayName("Genre")
+            </th>
+
+
+            <th>
+                @Html.DisplayNameFor(model => model.ChapterNumbers)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Quantity)
+            </th>
+
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.State.Name)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Genre.Name)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.ChapterNumbers)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+
+                <td>
+                    <button class="btn btn-link details" data-id="@item.Id">Details</button>|
+
+                    <button class="btn btn-link addtocart" data-id="@item.Id">Add to cart</button>
+
+                    @{
+
+                        if (this.User.Identity.IsAuthenticated)
+                        {
+                            <button class="btn btn-link edit" data-id="@item.Id">Edit</button>
+
+                        }
+
+                        if (this.User.Identity.IsAuthenticated && this.User.IsInRole("Admin"))
+                        {
+                            <button class="btn btn-link delete" data-id="@item.Id">Delete</button>
+
+                        }
+
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<div id="modal" class="modal fade" role="dialog">
+
+</div>
+
+
+@{
+
+    if (this.User.Identity.IsAuthenticated)
+    {
+
+
+        @section scripts{
+            <script>
+                $(function () {
+
+                    $(".delete").click(function () {
+                        var id = $(this).attr("data-id");
+
+                        $("#modal").load("/Quadrinho/Delete/" + id, function () {
+                            $("#modal").modal();
+                        })
+                    });
+
+
+                    $(".details").click(function () {
+                        var id = $(this).attr("data-id");
+                        $("#modal").load("/Quadrinho/Details/" + id, function () {
+                            $("#modal").modal();
+                        })
+
+
+                    });
+
+                    $(".edit").click(function () {
+                        var id = $(this).attr("data-id");
+                        $("#modal").load("/Quadrinho/Update/" + id, function () {
+                            $("#modal").modal();
+                        })
+
+
+                    });
+
+                    $(".create").click(function () {
+                        $("#modal").load("/Quadrinho/Create", function () {
+                            $("#modal").modal();
+                        })
+                    });
+
+
+
+                })
+            </script>
+        }
+    }
+}
+
+@section scripts{
+    <script>
+        $(function () {
+
+            $(".addtocart").click(function () {
+                var id = $(this).attr("data-id");
+
+                $("#modal").load("/Quadrinho/AddToCart/" + id, function () {
+                    $("#modal").modal();
+                })
+            });
+
+ 
+        })
+    </script>
+
+}

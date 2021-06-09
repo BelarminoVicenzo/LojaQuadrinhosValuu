@@ -1,0 +1,122 @@
+﻿@model LojaQuadrinhos.Models.Quadrinho
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+
+
+<div class="modal-dialog">
+    <div class="modal-content">
+
+
+        <div class="modal-header">
+            <h3 class="modal-title justify-content-center">Product details</h3>
+            <button type="button" class="close" data-dismiss="modal">
+                <span aria-hidden="true">x</span><span class="sr-only">Close</span>
+            </button>
+        </div><!--modal-header-->
+
+        <div class="modal-body">
+            <div>
+                <fieldset>
+                    <legend>
+                        @Html.DisplayNameFor(model => model.Name)
+                    </legend>
+                    @Html.DisplayFor(model => model.Name)
+
+                </fieldset>
+                <hr />
+
+                <fieldset>
+                    <legend>
+                        @Html.DisplayName("State")
+                    </legend>
+                    @Html.DisplayFor(model => model.State.Name)
+
+                </fieldset>
+                <hr />
+
+                <fieldset>
+                    <legend>
+                        @Html.DisplayName("Genre")
+                    </legend>
+                    @Html.DisplayFor(model => model.Genre.Name)
+
+                </fieldset>
+                <hr />
+
+                <fieldset>
+                    <legend>
+                        @Html.DisplayNameFor(model => model.ChapterNumbers)
+                    </legend>
+                    @Html.DisplayFor(model => model.ChapterNumbers)
+
+                </fieldset>
+                <hr />
+
+                <fieldset>
+                    <legend>
+                        @Html.DisplayNameFor(model => model.Quantity)
+                    </legend>
+                    @Html.DisplayFor(model => model.Quantity)
+
+                </fieldset>
+                <hr />
+
+
+                <fieldset>
+                    <legend>
+                        @Html.DisplayName("Description")
+                    </legend>
+                    IT is, something, something
+
+                </fieldset>
+                <hr />
+
+
+
+
+            </div>
+            <div>
+                <div class="modal-footer">
+                    @{
+
+                        if (this.User.Identity.IsAuthenticated)
+                        {
+                            <button class="btn btn-link edit" data-id="@Model.Id">Edit</button>
+
+                        }
+                    }
+                </div><!--modal-footer-->
+            </div>
+        </div><!--modal-body-->
+    </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
+
+
+
+
+@{
+
+    if (this.User.Identity.IsAuthenticated)
+    {
+
+        @section scripts{
+            <script>
+                $(function () {
+
+                    $(".edit").click(function () {
+                        var id = $(this).attr("data-id");
+                        $("#modal").load("/Quadrinho/Update/" + id, function () {
+                            $("#modal").modal();
+                        })
+
+                    });
+
+                })
+            </script>
+        }
+
+    }
+}
