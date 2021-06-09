@@ -33,10 +33,8 @@ namespace LojaQuadrinhosWeb
                        .AddEntityFrameworkStores<LojaQuadrinhos.DataAccess.ApplicationDbContext>()
                        .AddDefaultTokenProviders();
 
-
-
-
             services.AddControllersWithViews();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -57,6 +55,7 @@ namespace LojaQuadrinhosWeb
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
