@@ -45,5 +45,10 @@ namespace LojaQuadrinhos.BLL.Service
             var role=_repo.Get(id).Result;
             return await _repo.Delete(role);
         }
+
+        public string GetRoleName(string id)
+        {
+            return GetRoleAsync(id).Result.Name;
+        }
     }
 }

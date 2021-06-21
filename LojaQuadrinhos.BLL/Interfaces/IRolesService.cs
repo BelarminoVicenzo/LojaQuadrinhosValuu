@@ -11,6 +11,7 @@ namespace LojaQuadrinhos.BLL.Interfaces
         Task<List<IdentityRole>> GetRolesAsync();
         Task<IdentityResult> UpdateRoleAsync(IdentityRole entity);
         Task<IdentityResult> DeleteRoleAsync(string id);
+        string GetRoleName(string id);
 
     }
 }
