@@ -1,7 +1,10 @@
 ﻿using LojaQuadrinhos.BLL.Interfaces;
+using LojaQuadrinhos.BLL.Models;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 using System;
 using System.Collections.Generic;
@@ -11,13 +14,16 @@ using System.Threading.Tasks;
 
 namespace LojaQuadrinhosWeb.Controllers
 {
+    //[Authorize(Roles = "Admin")]
     public class RolesController : Controller
     {
         IRolesService _roleService;
+        IUserService _userService;
 
-        public RolesController(IRolesService roleService)
+        public RolesController(IRolesService roleService, IUserService userService)
         {
             _roleService = roleService;
+            _userService = userService;
         }
         public async Task<IActionResult> Index()
         {
@@ -46,12 +52,12 @@ namespace LojaQuadrinhosWeb.Controllers
             {
                 return BadRequest();
             }
-            var role= await _roleService.GetRoleAsync(id);
+            var role = await _roleService.GetRoleAsync(id);
             if (role == null)
             {
                 return NotFound();
             }
-           
+
             return View(role);
         }
 
@@ -84,7 +90,7 @@ namespace LojaQuadrinhosWeb.Controllers
             }
             return View(role);
         }
-         
+
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
@@ -93,6 +99,80 @@ namespace LojaQuadrinhosWeb.Controllers
             return RedirectToAction("Index");
         }
 
+
+        public async Task<IActionResult> AddUserToRole()
+        {
+            await PopulateRoleAndUserDropDown();
+
+            return View();
+        }
+
+
+
+
+        private async Task PopulateRoleAndUserDropDown()
+        {
+            var roles = await _roleService.GetRolesAsync();
+            var users = _userService.GetUserWithoutSensetiveInfo();
+
+
+            ViewBag.Roles = new SelectList(roles, "Id", "Name");
+            ViewBag.Users = new SelectList(users, "Id", "UserName");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddUserToRole(UserRoleModel model)
+        {
+
+            var roleName = _roleService.GetRoleName(model.RoleId);
+
+            var result = await _userService.AddToRole(model.UserId, roleName);
+            if (result.Succeeded == false)
+            {
+                //lets say there's only one error
+                ViewBag.Message = result.Errors.FirstOrDefault().Description;
+            }
+
+            await PopulateRoleAndUserDropDown();
+            return View();
+        }
+        public async Task<IActionResult> RemoveUserFromRole()
+        {
+            var user = await _userService.GetUserByUserNameAsync(User.Identity.Name);
+            
+             await PopulateRoleAndUserDropDown();
+            return View(new UserRoleModel { UserId = user.Id, UserName = user.UserName });
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RemoveUserFromRole(UserRoleModel model)
+        {
+
+            var roleName = model.RoleName;
+
+            var result = await _userService.RemoveFromRole(model.UserId, roleName);
+            if (result.Succeeded == false)
+            {
+                //lets say there's only one error
+                ViewBag.Message = result.Errors.FirstOrDefault().Description;
+            }
+
+            await PopulateRoleAndUserDropDown();
+            return View();
+        }
+
+        [HttpGet]
+        public async Task<List<string>> GetRolesFromUser(string username)
+        {
+            var user = await _userService.GetUserByUserNameAsync(username);
+            var roles = await _userService.GetRolesFromUser(user.Id);
+            return roles;
+        }
+        
+       
 
     }
 
