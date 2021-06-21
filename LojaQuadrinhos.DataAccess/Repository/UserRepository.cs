@@ -26,7 +26,7 @@ namespace LojaQuadrinhos.DataAccess.Repository
         }
         public async Task<IdentityResult> Create(ApplicationUser entity)
         {
-            entity.PasswordHash=_passwordHasher.HashPassword(entity, entity.PasswordHash);
+            entity.PasswordHash = _passwordHasher.HashPassword(entity, entity.PasswordHash);
             entity.UserName = entity.Email;
             return await _userManager.CreateAsync(entity);
         }
@@ -51,6 +51,26 @@ namespace LojaQuadrinhos.DataAccess.Repository
             return await _userManager.Users.ToListAsync();
         }
 
-       
+
+        public async Task<IdentityResult> AddToRole(ApplicationUser user, string roleName)
+        {
+            return await _userManager.AddToRoleAsync(user, roleName);
+        }
+
+        public async Task<IdentityResult> RemoveFromRole(ApplicationUser user, string roleName)
+        {
+            return await _userManager.RemoveFromRoleAsync(user, roleName);
+        }
+
+        public async Task<List<string>> GetRolesFromUser(ApplicationUser user)
+        {
+            return (List<string>)await _userManager.GetRolesAsync(user);
+        }
+
+        public Task<ApplicationUser> GetUserByUserNameAsync(string userName)
+        {
+            return _userManager.FindByNameAsync(userName);
+
+        }
     }
 }
