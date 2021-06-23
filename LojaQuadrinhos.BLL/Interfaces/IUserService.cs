@@ -9,7 +9,8 @@ namespace LojaQuadrinhos.BLL.Interfaces
     public interface IUserService
     {
         Task<ApplicationUser> GetUserAsync(string id);
-        List<ApplicationUser> GetUserWithoutSensetiveInfo();
+        List<ApplicationUser> GetUsersWithoutSensitiveInfo();
+        Task<ApplicationUser> GetUserWithoutSensitiveInfoAsync(string userName);
         Task<IdentityResult> CreateUserAsync(ApplicationUser entity);
         Task<List<ApplicationUser>> GetUsersAsync();
         Task<IdentityResult> UpdateUserAsync(ApplicationUser entity);

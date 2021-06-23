@@ -36,7 +36,7 @@ namespace LojaQuadrinhos.BLL.Service
 
 
 
-        public List<ApplicationUser> GetUserWithoutSensetiveInfo()
+        public List<ApplicationUser> GetUsersWithoutSensitiveInfo()
         {
             var users = _repo.GetAll().Result;
 
@@ -48,6 +48,14 @@ namespace LojaQuadrinhos.BLL.Service
             }
             return userInsensitive;
 
+        }
+        
+        
+        public async Task<ApplicationUser> GetUserWithoutSensitiveInfoAsync(string userName)
+        {
+            var user = await GetUserByUserNameAsync(userName);
+            user.PasswordHash = string.Empty;
+            return user;
         }
 
 
