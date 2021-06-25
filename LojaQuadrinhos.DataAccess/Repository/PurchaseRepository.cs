@@ -1,6 +1,8 @@
 ﻿using LojaQuadrinhos.DataAccess.Interfaces;
 using LojaQuadrinhos.Models;
+
 using Microsoft.EntityFrameworkCore;
+
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,11 +18,8 @@ namespace LojaQuadrinhos.DataAccess.Repository
         {
             _context = context;
         }
-        public async Task<int> Create(Purchase entity, ApplicationUser user, Quadrinho quadrinho)
+        public async Task<int> Create(Purchase entity, ApplicationUser user)
         {
-            entity.UserId = user.Id;
-            entity.QuadrinhoId = quadrinho.Id;
-            _context.Quadrinho.Update(quadrinho);
             _context.Purchase.Add(entity);
             return await _context.SaveChangesAsync();
         }
@@ -32,12 +31,14 @@ namespace LojaQuadrinhos.DataAccess.Repository
 
         public async Task<List<Purchase>> GetAll()
         {
-            return await _context.Purchase.ToListAsync();
+            return await _context.Purchase.Include(q => q.Quadrinho).Include(u => u.User).ToListAsync();
         }
 
         public async Task<List<Purchase>> GetFromCustomer(object customerId)
         {
-            return await _context.Purchase.Where(p => p.Id == (int)customerId).ToListAsync();
+            return await _context.Purchase.Include(q => q.Quadrinho)
+                .Where(p => p.UserId == customerId.ToString())
+                .ToListAsync();
         }
 
     }
