@@ -1,10 +1,10 @@
 ﻿using LojaQuadrinhos.BLL.Interfaces;
 using LojaQuadrinhos.Models;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace LojaQuadrinhosWeb.Controllers
 {
+    [Authorize]
     public class UsersController : Controller
     {
 
@@ -95,6 +96,12 @@ namespace LojaQuadrinhosWeb.Controllers
         {
             await _userService.DeleteUserAsync(id);
             return RedirectToAction("Index");
+        }
+
+
+        public IActionResult Profile()
+        {
+            return View();
         }
     }
 }
