@@ -7,7 +7,7 @@ namespace LojaQuadrinhos.DataAccess.Interfaces
 {
     public interface IPurchaseRepository
     {
-        Task<int> Create(Purchase entity, ApplicationUser user, Quadrinho quadrinho);
+        Task<int> Create(Purchase entity, ApplicationUser user);
         Task<Purchase> Get(object id);
         Task<List<Purchase>> GetAll();
 
