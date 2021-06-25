@@ -1,6 +1,7 @@
 ﻿using LojaQuadrinhos.BLL.Interfaces;
 using LojaQuadrinhos.DataAccess.Interfaces;
 using LojaQuadrinhos.Models;
+
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -32,23 +33,30 @@ namespace LojaQuadrinhos.BLL.Service
         }
 
 
-        public async Task<int> CreatePurchaseAsync(Purchase entity, ApplicationUser user, Quadrinho quadrinho)
+        public async Task<int> CreatePurchaseAsync(Purchase entity, ApplicationUser user)
         {
 
-            var quad = _quadService.GetQuadrinhoAsync(quadrinho.Id).Result;
-            if (CheckQuadrinhoAvaiability(entity.PurchasedQuantity, quad.Quantity))
+            var quadrinho = _quadService.GetQuadrinhoAsync(entity.QuadrinhoId).Result;
+            if (CheckQuadrinhoAvaiability(entity.PurchasedQuantity, quadrinho.Quantity))
             {
-
-                quad.Quantity -= entity.PurchasedQuantity;
-                return await _repo.Create(entity, user, quad);
+                ConfigurePurchase(entity, user, quadrinho);
+                return await _repo.Create(entity, user);
             }
             else
             {
                 return 0;
             }
-            
         }
 
+        private void ConfigurePurchase(Purchase entity, ApplicationUser user, Quadrinho quadrinho)
+        {
+            entity.UserId = user.Id;
+            entity.QuadrinhoId = quadrinho.Id;
+            entity.Quadrinho = quadrinho;
+            entity.User = user;
+            entity.Id = 0;//somehow it was getting the Quadrinho.Id one
+            quadrinho.Quantity -= entity.PurchasedQuantity;
+        }
 
         public async Task<List<Purchase>> GetAllFromCustomer(object customerId)
         {
