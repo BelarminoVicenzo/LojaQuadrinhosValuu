@@ -1,0 +1,59 @@
+﻿@model IEnumerable<LojaQuadrinhos.Models.Purchase>
+
+@{
+    ViewData["Title"] = "My purchase history";
+}
+
+<h1>My history</h1>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayName("Purchased Product")
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.PurchasedQuantity)
+            </th>
+
+
+            <th>
+                @Html.DisplayNameFor(model => model.PurchaseDate)
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quadrinho.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PurchasedQuantity)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.PurchaseDate)
+                </td>
+
+                <td>
+                    <button class="btn btn-link details" data-id="@item.Id">More Detail</button>
+
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<div id="modal" class="modal fade" role="dialog">
+
+</div>
+
+ 
