@@ -113,7 +113,7 @@ namespace LojaQuadrinhosWeb.Controllers
         private async Task PopulateRoleAndUserDropDown()
         {
             var roles = await _roleService.GetRolesAsync();
-            var users = _userService.GetUserWithoutSensetiveInfo();
+            var users = _userService.GetUsersWithoutSensitiveInfo();
 
 
             ViewBag.Roles = new SelectList(roles, "Id", "Name");
@@ -139,7 +139,7 @@ namespace LojaQuadrinhosWeb.Controllers
         }
         public async Task<IActionResult> RemoveUserFromRole()
         {
-            var user = await _userService.GetUserByUserNameAsync(User.Identity.Name);
+            var user = await _userService.GetUserWithoutSensitiveInfoAsync(User.Identity.Name);
             
              await PopulateRoleAndUserDropDown();
             return View(new UserRoleModel { UserId = user.Id, UserName = user.UserName });
@@ -167,7 +167,7 @@ namespace LojaQuadrinhosWeb.Controllers
         [HttpGet]
         public async Task<List<string>> GetRolesFromUser(string username)
         {
-            var user = await _userService.GetUserByUserNameAsync(username);
+            var user = await _userService.GetUserWithoutSensitiveInfoAsync(username);
             var roles = await _userService.GetRolesFromUser(user.Id);
             return roles;
         }
