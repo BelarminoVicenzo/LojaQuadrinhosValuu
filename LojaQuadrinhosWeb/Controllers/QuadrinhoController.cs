@@ -1,6 +1,7 @@
 ﻿using LojaQuadrinhos.BLL.Interfaces;
 using LojaQuadrinhos.Models;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -12,23 +13,28 @@ using System.Threading.Tasks;
 
 namespace LojaQuadrinhosWeb.Controllers
 {
+    [Authorize]
     public class QuadrinhoController : Controller
     {
 
         IQuadrinhoService _quadrinhoService;
         IQuadrinhoStateService _stateService;
         IQuadrinhoGenreService _genreService;
-        public QuadrinhoController(IQuadrinhoService quadrinhoService, IQuadrinhoStateService stateService, IQuadrinhoGenreService genreService)
+       
+        public QuadrinhoController(IQuadrinhoService quadrinhoService, IQuadrinhoStateService stateService,
+            IQuadrinhoGenreService genreService)
         {
             _quadrinhoService = quadrinhoService;
             _stateService = stateService;
             _genreService = genreService;
+            
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
 
-            return View(await _quadrinhoService.GetAllQuadrinhosAsync()) ;
+            return View(await _quadrinhoService.GetAllQuadrinhosAsync());
         }
 
         public async Task<IActionResult> CreateAsync()
@@ -36,7 +42,7 @@ namespace LojaQuadrinhosWeb.Controllers
             await FillStateAndGenreDropDown();
             return View();
         }
-       
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -46,8 +52,8 @@ namespace LojaQuadrinhosWeb.Controllers
             return RedirectToAction("Index");
         }
 
-      
-      
+
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -63,7 +69,7 @@ namespace LojaQuadrinhosWeb.Controllers
             return View(quadrinho);
         }
 
-      
+        
         public async Task<IActionResult> Update(int? id)
         {
             await FillStateAndGenreDropDown();
@@ -81,7 +87,7 @@ namespace LojaQuadrinhosWeb.Controllers
             return View(quadrinho);
         }
 
-       
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -95,7 +101,7 @@ namespace LojaQuadrinhosWeb.Controllers
             return View(quadrinho);
         }
 
-   
+        [Authorize(Roles ="Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -110,7 +116,7 @@ namespace LojaQuadrinhosWeb.Controllers
             return View(quadrinho);
         }
 
-      
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -130,13 +136,40 @@ namespace LojaQuadrinhosWeb.Controllers
             return View(quadrinho);
         }
 
+
+
+        [Authorize]
+        public async Task<IActionResult> Buy(int? id)
+        {
+            if (id == null)
+            {
+                return BadRequest();
+            }
+            var quadrinho = await _quadrinhoService.GetQuadrinhoAsync((int)id);
+            
+            //no need to handle the error bc it won't trigger here first
+            //it will trigger in QuadrinhoRepository
+            
+            var purchase = new Purchase
+            {
+                QuadrinhoId = quadrinho.Id,
+                Quadrinho=quadrinho,
+            };
+            return View(purchase);
+        }
+
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddToCart()
+        public async Task<IActionResult> Buy(Purchase purchase, [FromServices] IPurchaseService purchaseService, [FromServices] IUserService userService)
         {
-
-            return View();
+            purchase.PurchaseDate = DateTime.Now;
+            var user = await userService.GetUserWithoutSensitiveInfoAsync(User.Identity.Name);
+            await purchaseService.CreatePurchaseAsync(purchase,user);
+            return RedirectToAction("Index");
         }
+
+
         private async Task FillStateAndGenreDropDown()
         {
             var states = await _stateService.GetAllStateAsync();

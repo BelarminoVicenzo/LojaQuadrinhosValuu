@@ -73,7 +73,8 @@
                 <td>
                     <button class="btn btn-link details" data-id="@item.Id">Details</button>|
 
-                    <button class="btn btn-link addtocart" data-id="@item.Id">Add to cart</button>
+                    <a class="nav-link text-dark" asp-controller="Quadrinho" asp-action="Buy" asp-route-id="@item.Id">Buy Quadrinho</a>
+                   
 
                     @{
 
@@ -95,6 +96,7 @@
         }
     </tbody>
 </table>
+
 
 
 <div id="modal" class="modal fade" role="dialog">
@@ -151,7 +153,7 @@
             </script>
         }
     }
-    <script>
+    @*<script>
         $(function () {
 
             $(".addtocart").click(function () {
@@ -164,6 +166,6 @@
 
 
         })
-    </script>
+    </script>*@
 }
  

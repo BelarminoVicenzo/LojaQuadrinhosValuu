@@ -1,0 +1,84 @@
+﻿@model LojaQuadrinhos.Models.Purchase
+
+@{
+    ViewData["Title"] = "Buy quadrinho";
+}
+
+
+<hr />
+<div class="modal-dialog">
+    <div class="modal-content">
+
+        <div class="modal-header">
+            <h4 class="modal-title justify-content-center">Make a purchase</h4>
+            <button type="button" class="close" data-dismiss="modal">
+                <span aria-hidden="true">x</span><span class="sr-only">Close</span>
+            </button>
+        </div><!--modal-header-->
+        <div class="modal-body">
+
+            <form asp-action="Buy" method="post">
+                @Html.AntiForgeryToken()
+                <input  asp-for="QuadrinhoId" type="hidden" value="@Model.QuadrinhoId" />
+                       
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Name</label>
+                    <div class="col-sm-10">
+                        <input asp-for="Quadrinho.Name" class="form-control" readonly placeholder="name" value="@Model.Quadrinho.Name" />
+                        <span asp-validation-for="Quadrinho.Name" class="text-danger"></span>
+                    </div>
+                </div>
+
+
+
+                <div class="form-group row">
+                    <label asp-for="PurchasedQuantity" class="col-sm-2 col-form-label">Quantity</label>
+                    <div class="col-sm-10">
+                        <input asp-for="PurchasedQuantity" class="form-control" min="1" value="1"/>
+                        <span asp-validation-for="PurchasedQuantity" id="validation-PurchasedQuantity" class="text-danger"></span>
+                    </div>
+                </div>
+
+
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Buyer</label>
+                    <div class="col-sm-10">
+                        <input asp-for="User.FullName" class="form-control" readonly placeholder="name" value="@User.Identity.Name" />
+                        <span asp-validation-for="User.FullName" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <div class="form-group row">
+                        <input type="submit" value="Buy" class="btn btn-success" />
+                    </div>
+                </div><!--modal-footer-->
+            </form>
+        </div><!--modal-body-->
+
+
+
+
+    </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
+@section Scripts {
+
+    <script>
+
+        $(document).ready(function () {
+            PreventNegativeQuantity();
+        });
+
+        function PreventNegativeQuantity() {
+            $("#PurchasedQuantity").change(function () {
+                var qty = $("#PurchasedQuantity").val();
+                if (qty < 1) {
+                    $("#PurchasedQuantity").val(1);
+                }
+            });
+        }
+
+    </script>
+}
