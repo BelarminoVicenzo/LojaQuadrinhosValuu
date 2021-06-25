@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace LojaQuadrinhosWeb.Controllers
 {
-    //[Authorize(Roles ="Admin")]
+    
     [Authorize]
     public class AccountController : Controller
     {
@@ -29,6 +29,7 @@ namespace LojaQuadrinhosWeb.Controllers
             _userType = userType;
             _signInManager = signInManager;
         }
+        
         [AllowAnonymous]
         public IActionResult Index()
         {
@@ -56,6 +57,7 @@ namespace LojaQuadrinhosWeb.Controllers
 
 
         //for internal register, than Employees can be registered
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Register()
         {
             var userTypes = await _userType.GetAllUserTypeAsync();
@@ -66,6 +68,7 @@ namespace LojaQuadrinhosWeb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Register(ApplicationUser user)
         {
             await _userService.CreateUserAsync(user);
@@ -111,7 +114,6 @@ namespace LojaQuadrinhosWeb.Controllers
             }
 
         }
-
         public async Task<IActionResult> Logout()
         {
              await _signInManager.SignOutAsync();
