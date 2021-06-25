@@ -17,5 +17,6 @@ namespace LojaQuadrinhos.DataAccess.Interfaces
         Task<IdentityResult> RemoveFromRole(ApplicationUser user, string roleName);
         Task<List<string>> GetRolesFromUser(ApplicationUser user);
         Task<ApplicationUser> GetUserByUserNameAsync(string userName);
+        string GetUserId(string userName);
     }
 }

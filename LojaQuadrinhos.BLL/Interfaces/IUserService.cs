@@ -19,6 +19,7 @@ namespace LojaQuadrinhos.BLL.Interfaces
         Task<IdentityResult> RemoveFromRole(string userId, string roleName);
         Task<List<string>> GetRolesFromUser(string userId);
         Task<ApplicationUser> GetUserByUserNameAsync(string userName);
+        string GetUserId(string userName);
 
     }
 }

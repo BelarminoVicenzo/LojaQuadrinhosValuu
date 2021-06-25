@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace LojaQuadrinhos.DataAccess.Repository
@@ -71,6 +72,11 @@ namespace LojaQuadrinhos.DataAccess.Repository
         {
             return _userManager.FindByNameAsync(userName);
 
+        }
+
+        public string GetUserId(string userName)
+        {
+                return _context.Users.Where(u => u.UserName == userName).Select(u=>u.Id).FirstOrDefault();
         }
     }
 }

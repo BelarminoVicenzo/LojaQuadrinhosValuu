@@ -106,5 +106,10 @@ namespace LojaQuadrinhos.BLL.Service
         {
             return _repo.GetUserByUserNameAsync(userName);
         }
+
+        public string GetUserId(string userName)
+        {
+            return _repo.GetUserId(userName);
+        }
     }
 }
